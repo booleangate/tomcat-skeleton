@@ -1,0 +1,15 @@
+START TRANSACTION;
+
+CREATE TABLE `user` (
+    `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+    `createdTime` DATETIME NOT NULL,
+    `lastLoginTime` DATETIME NOT NULL,
+    `lastModifiedTime` DATETIME NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
+    `email` VARCHAR(255) NOT NULL,
+    `password` CHAR(64) NOT NULL COMMENT "SHA-256 hash",
+    PRIMARY KEY(id),
+    UNIQUE(email)
+);
+
+COMMIT;
