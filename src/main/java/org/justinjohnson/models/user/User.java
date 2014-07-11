@@ -1,6 +1,14 @@
-package org.justinjohnson.epicred.user;
+package org.justinjohnson.models.user;
 
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
@@ -8,31 +16,38 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
  * @author johnsonj
  * @version 20140711 johnsonj
  */
+@Entity
+@Table(name = "user", catalog = "tomcat_skeleton", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
 	private int    id;
 	private Date   createdTime;
 	private Date   lastLoginTime;
 	private Date   lastModifiedTime;
 	private String name;
+	private String password;
 	private String email;
 
 	public User() {
 
 	}
 
-	public User(final int id, final Date createdTime, final Date lastLoginTime, final Date lastModifiedTime, final String name, final String email) {
+	public User(final int id, final Date createdTime, final Date lastLoginTime, final Date lastModifiedTime, final String name, final String password, final String email) {
 		this.id = id;
 		this.createdTime = createdTime;
 		this.lastLoginTime = lastLoginTime;
 		this.lastModifiedTime = lastModifiedTime;
 		this.name = name;
+		this.password = password;
 		this.email = email;
 	}
 
 	public User(final User user) {
-	    this(user.getId(), user.getCreatedTime(), user.getLastLoginTime(), user.getLastModifiedTime(), user.getName(), user.getEmail());
-    }
+		this(user.getId(), user.getCreatedTime(), user.getLastLoginTime(), user.getLastModifiedTime(), user.getName(), user.getPassword(), user.getEmail());
+	}
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Column(name = "id", unique = true, nullable = false)
 	public int getId() {
 		return id;
 	}
@@ -41,6 +56,7 @@ public class User {
 		this.id = id;
 	}
 
+	@Column(name = "createdTime", nullable = false)
 	public Date getCreatedTime() {
 		return createdTime;
 	}
@@ -49,6 +65,7 @@ public class User {
 		this.createdTime = createdTime;
 	}
 
+	@Column(name = "lastLoginTime", nullable = false)
 	public Date getLastLoginTime() {
 		return lastLoginTime;
 	}
@@ -57,6 +74,7 @@ public class User {
 		this.lastLoginTime = lastLoginTime;
 	}
 
+	@Column(name = "lastModifiedTime", nullable = false)
 	public Date getLastModifiedTime() {
 		return lastModifiedTime;
 	}
@@ -65,6 +83,7 @@ public class User {
 		this.lastModifiedTime = lastModifiedTime;
 	}
 
+	@Column(name = "name", nullable = false, length = 100)
 	public String getName() {
 		return name;
 	}
@@ -73,6 +92,16 @@ public class User {
 		this.name = name;
 	}
 
+	@Column(name = "password", nullable = false, length = 64)
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	@Column(name = "email", nullable = false, length = 255)
 	public String getEmail() {
 		return email;
 	}
@@ -106,13 +135,15 @@ public class User {
     		.append(lastLoginTime, other.lastLoginTime)
     		.append(lastModifiedTime, other.lastModifiedTime)
     		.append(name, other.name)
+    		.append(password, other.password)
     		.append(email, other.email)
     		.isEquals();
 		// @formatter:on
 	}
 
 	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", createdTime=" + createdTime + ", lastLoginTime=" + lastLoginTime + "]";
-	}
+    public String toString() {
+	    return "User [id=" + id + ", name=" + name + ", email=" + email + ", createdTime=" + createdTime + ", lastLoginTime=" + lastLoginTime + ", lastModifiedTime="
+	        + lastModifiedTime + "]";
+    }
 }

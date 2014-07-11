@@ -1,4 +1,4 @@
-package org.justinjohnson.epicred.user;
+package org.justinjohnson.skeletons.tomcat.user;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.justinjohnson.models.user.User;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 

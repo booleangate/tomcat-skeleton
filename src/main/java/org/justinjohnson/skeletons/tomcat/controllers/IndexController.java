@@ -1,4 +1,4 @@
-package org.justinjohnson.epicred.controllers;
+package org.justinjohnson.skeletons.tomcat.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

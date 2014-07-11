@@ -87,13 +87,20 @@
 	</pluginRepositories>
 
 	<build>
+        <resources>
+            <resource>
+                <directory>src/main/db/hibernate</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        
 		<plugins>
 			<plugin>
 				<groupId>com.carbonfive.db-support</groupId>
 				<artifactId>db-migration-maven-plugin</artifactId>
 				<version>0.9.8</version>
 				<configuration>
-					<url>jdbc:mysql://${db.host}/skeletons_tomcat</url>
+					<url>jdbc:mysql://${db.host}/${db.name}</url>
 					<username>${db.username}</username>
 					<password>${db.password}</password>
 				</configuration>
@@ -122,7 +129,9 @@
 			</activation>
 			<properties>
 				<profileName>clone</profileName>
+				
 				<db.host>localhost</db.host>
+				<db.name>tomcat_skeleton</db.name>
 				<db.username>root</db.username>
 				<db.password></db.password>
 			</properties>
