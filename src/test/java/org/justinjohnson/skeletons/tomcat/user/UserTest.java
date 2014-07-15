@@ -28,6 +28,7 @@ public class UserTest {
 		final Date lastModifiedTime = new Date();
 		final String name = "Justin";
 		final String email = "justin@asdf.com";
+		final String password = "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069";
 		
 		// Use empty constructor to test getters and setters
 		User user = new User();
@@ -37,6 +38,7 @@ public class UserTest {
 		user.setLastLoginTime(lastLoginTime);
 		user.setLastModifiedTime(lastModifiedTime);
 		user.setName(name);
+		user.setPassword(password);
 		user.setEmail(email);
 		
 		assertEquals(id, user.getId());
@@ -44,16 +46,18 @@ public class UserTest {
 		assertEquals(lastLoginTime, user.getLastLoginTime());
 		assertEquals(lastModifiedTime, user.getLastModifiedTime());
 		assertEquals(name, user.getName());
+		assertEquals(password, user.getPassword());
 		assertEquals(email, user.getEmail());
 		
 		// Test parameterized constructor
-		user = new User(id, createdTime, lastLoginTime, lastModifiedTime, name, email);
+		user = new User(id, createdTime, lastLoginTime, lastModifiedTime, name, password, email);
 		
 		assertEquals(id, user.getId());
 		assertEquals(createdTime, user.getCreatedTime());
 		assertEquals(lastLoginTime, user.getLastLoginTime());
 		assertEquals(lastModifiedTime, user.getLastModifiedTime());
 		assertEquals(name, user.getName());
+		assertEquals(password, user.getPassword());
 		assertEquals(email, user.getEmail());
 	}
 	
@@ -62,8 +66,9 @@ public class UserTest {
 	 */
 	@Test
 	public final void hashing() {
-		final User user1 = new User(1, null, null, null, "Justin", "justin@asdf.com");
-		final User user2 = new User(2, null, null, null, "Sherelle", "sherelle@asdf.com");
+		final String password = "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069";
+		final User user1 = new User(1, null, null, null, "Justin", password, "justin@asdf.com");
+		final User user2 = new User(2, null, null, null, "Sherelle", password, "sherelle@asdf.com");
 		final int u1Hash = user1.hashCode();
 		
 		assertEquals(u1Hash, user1.hashCode());
@@ -77,9 +82,10 @@ public class UserTest {
 	public final void equality() {
 		final Date user1Date = new Date();
 		final Date user2Date = new Date();
-		final User user1 = new User(1, user1Date, user1Date, user1Date, "Justin", "justin@asdf.com");
+		final String password = "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069";
+		final User user1 = new User(1, user1Date, user1Date, user1Date, "Justin", password, "justin@asdf.com");
 		final User user1Copy = new User(user1);
-		final User user2 = new User(2, user2Date, user2Date, user2Date, "Sherelle", "sherelle@asdf.com");
+		final User user2 = new User(2, user2Date, user2Date, user2Date, "Sherelle", password, "sherelle@asdf.com");
 		
 		// Identity
 		assertEquals(user1, user1);
