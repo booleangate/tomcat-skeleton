@@ -1,4 +1,4 @@
-package org.justinjohnson.skeletons.tomcat.user;
+package org.justinjohnson.user;
 
 import static org.junit.Assert.*;
 

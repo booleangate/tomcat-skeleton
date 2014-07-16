@@ -8,15 +8,38 @@
 
 	<name>tomcat-skeleton</name>
 
+	<developers>
+		<developer>
+			<name>Justin Johnson</name>
+			<id>johnsonj</id>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+
 	<properties>
 		<commons-codec-version>1.9</commons-codec-version>
+		<com.fasterxml.jackson.core-version>2.4.1.2</com.fasterxml.jackson.core-version>
 		<javax.servlet-version>2.4</javax.servlet-version>
 		<javax.servlet.jsp-version>2.1</javax.servlet.jsp-version>
+		<jstl-version>1.2</jstl-version>
 		<junit.version>4.11</junit.version>
+		<mysql-version>5.1.31</mysql-version>
 		<org.apache.commons-version>3.3.2</org.apache.commons-version>
+		<org.apache.logging.log4j-version>2.0-rc2</org.apache.logging.log4j-version>
 		<org.apache.tomcat.maven-version>7</org.apache.tomcat.maven-version>
-		<org.springframework-version>3.0.5.RELEASE</org.springframework-version>
+		<org.hibernate-version>4.3.5.Final</org.hibernate-version>
+		<org.springframework-version>4.0.0.RELEASE</org.springframework-version>
 	</properties>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>c5-public-repository</id>
+			<url>http://mvn.carbonfive.com/public</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<dependencies>
 		<dependency>
@@ -26,9 +49,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>${org.apache.commons-version}</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${com.fasterxml.jackson.core-version}</version>
 		</dependency>
 
 		<dependency>
@@ -45,17 +68,57 @@
 		</dependency>
 
 		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${jstl-version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.3.5.Final</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${org.apache.commons-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${org.apache.logging.log4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${org.apache.logging.log4j-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${org.hibernate-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -79,21 +142,14 @@
 		</dependency>
 	</dependencies>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>c5-public-repository</id>
-			<url>http://mvn.carbonfive.com/public</url>
-		</pluginRepository>
-	</pluginRepositories>
-
 	<build>
-        <resources>
-            <resource>
-                <directory>src/main/db/hibernate</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        
+		<resources>
+			<resource>
+				<directory>src/main/db/hibernate</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>com.carbonfive.db-support</groupId>
@@ -129,7 +185,7 @@
 			</activation>
 			<properties>
 				<profileName>clone</profileName>
-				
+
 				<db.host>localhost</db.host>
 				<db.name>tomcat_skeleton</db.name>
 				<db.username>root</db.username>

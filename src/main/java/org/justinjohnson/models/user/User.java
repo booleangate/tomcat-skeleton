@@ -1,5 +1,6 @@
 package org.justinjohnson.models.user;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,24 +9,33 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.justinjohnson.models.PersistableModel;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 
 /**
  * @author johnsonj
- * @version 20140711 johnsonj
+ * @version 20140715 johnsonj
  */
 @Entity
 @Table(name = "user", catalog = "tomcat_skeleton", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-public class User {
-	private int    id;
-	private Date   createdTime;
-	private Date   lastLoginTime;
-	private Date   lastModifiedTime;
-	private String name;
-	private String password;
-	private String email;
+public class User implements PersistableModel {
+	// Cache this reference to avoid the reflection lookup
+	private final static String PERSISTENCE_LOCATION = User.class.getSimpleName();
+
+	private int                 id;
+	private Date                createdTime;
+	private Date                lastLoginTime;
+	private Date                lastModifiedTime;
+	private String              name;
+	private String              password;
+	private String              email;
 
 	public User() {
 
@@ -45,8 +55,18 @@ public class User {
 		this(user.getId(), user.getCreatedTime(), user.getLastLoginTime(), user.getLastModifiedTime(), user.getName(), user.getPassword(), user.getEmail());
 	}
 
+	@Transient
+	public String getPersistenceLocation() {
+		return PERSISTENCE_LOCATION;
+	}
+
+	@Transient
+	public Serializable getPersistenceId() {
+		return id;
+	}
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
 	public int getId() {
 		return id;
@@ -57,6 +77,7 @@ public class User {
 	}
 
 	@Column(name = "createdTime", nullable = false)
+	@JsonSerialize(using = DateSerializer.class)
 	public Date getCreatedTime() {
 		return createdTime;
 	}
@@ -66,6 +87,7 @@ public class User {
 	}
 
 	@Column(name = "lastLoginTime", nullable = false)
+	@JsonSerialize(using = DateSerializer.class)
 	public Date getLastLoginTime() {
 		return lastLoginTime;
 	}
@@ -75,6 +97,7 @@ public class User {
 	}
 
 	@Column(name = "lastModifiedTime", nullable = false)
+	@JsonSerialize(using = DateSerializer.class)
 	public Date getLastModifiedTime() {
 		return lastModifiedTime;
 	}
@@ -93,6 +116,7 @@ public class User {
 	}
 
 	@Column(name = "password", nullable = false, length = 64)
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -142,8 +166,8 @@ public class User {
 	}
 
 	@Override
-    public String toString() {
-	    return "User [id=" + id + ", name=" + name + ", email=" + email + ", createdTime=" + createdTime + ", lastLoginTime=" + lastLoginTime + ", lastModifiedTime="
-	        + lastModifiedTime + "]";
-    }
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", createdTime=" + createdTime + ", lastLoginTime=" + lastLoginTime + ", lastModifiedTime="
+		    + lastModifiedTime + "]";
+	}
 }

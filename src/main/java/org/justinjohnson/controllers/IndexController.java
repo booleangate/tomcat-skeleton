@@ -1,4 +1,4 @@
-package org.justinjohnson.skeletons.tomcat.controllers;
+package org.justinjohnson.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * @author johnsonj
+ * @version 20140715 johnsonj
+ */
 @Controller
 @RequestMapping("/")
 public class IndexController {
